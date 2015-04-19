@@ -22,10 +22,12 @@ $ztPath->registerNamespace('Zt',__DIR__);
 if(JFactory::getApplication()->input->get('zt.ajax', false) === false){
     JHtml::_('bootstrap.framework');
     ob_start();
-    require_once $ztPath->getInstance()->getPath('Zt://assets/js/zt.core.php');
+    require_once $ztPath->getPath('Zt://assets/js/zt.core.php');
     $script = ob_get_contents();
     ob_end_clean();
-    JFactory::getDocument()->addScriptDeclaration($script);
+    $document = JFactory::getDocument();
+    $document->addScriptDeclaration($script);
+    $document->addScript($ztPath->getUrl('Zt://assets/js/zt.ajax.js'));
 }
 
 spl_autoload_register(array('ZtLoader', 'autoloadZtPsr2'));
