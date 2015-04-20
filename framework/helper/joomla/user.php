@@ -25,8 +25,17 @@ if (!class_exists('ZtHelperJoomlaUser'))
             $credentials = array('username' => $username, 'password' => $password);
             $options = array();
             $response = $auth->authenticate($credentials, $options);
-echo $response;
-           
+            return $response;
+        }
+
+        public static function logout()
+        {
+            
+        }
+
+        public static function isLogged()
+        {
+            return !JFactory::getUser()->guest;
         }
 
     }
