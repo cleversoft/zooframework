@@ -6,6 +6,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * Fix JFile requirement
+ */
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
+/**
  * Class exists checking
  */
 if (!class_exists('ZtPath'))
