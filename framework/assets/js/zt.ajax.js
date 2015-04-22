@@ -25,6 +25,25 @@ jQuery(document).ready(function(){
                 url: z.settings.frontendUrl,
                 type: "POST",
                 data: {
+                },
+                success: function(data){
+                    console.log("Reponse data: ", data);
+                    $.each(data, function(key, item){
+                        switch(key){
+                            case 'html':
+                                z.ui.replace(item.target, item.html);
+                                break;
+                            case 'appendHtml':
+                                z.ui.append(item.target, item.html);
+                                break;
+                            case 'exec':
+                            case 'execute':
+                                eval(item);
+                                break;
+                            default:
+                                break;
+                        };
+                    });
                 }
             };
             this._settings.data[z.settings.token] = 1;
