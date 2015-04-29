@@ -49,6 +49,22 @@ if (!class_exists('ZtFramework'))
             $ztPath->registerNamespace($namespace, implode(DIRECTORY_SEPARATOR, $path['root']) . DIRECTORY_SEPARATOR . 'local');
         }
 
+        public static function import($key)
+        {
+            $path = ZtPath::getInstance();
+            $filePath = $path->getPath($key);
+            if ($filePath)
+            {
+                return require_once $filePath;
+            }
+            return false;
+        }
+
+        public static function addStyleSheet($key)
+        {
+            return ZtAssets::getInstance()->addStyleSheet($key);
+        }
+
     }
 
 }
