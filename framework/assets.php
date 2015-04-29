@@ -65,7 +65,14 @@ if (!class_exists('ZtAssets'))
          */
         public function addStyleSheet($key)
         {
-            $assetFile = $this->getAssetUrl($key);
+            if (filter_var($key, FILTER_VALIDATE_URL))
+            {
+                $assetFile = $key;
+            } else
+            {
+                $assetFile = $this->getAssetUrl($key);
+            }
+
             if ($assetFile)
             {
                 $doc = JFactory::getDocument();
@@ -80,7 +87,13 @@ if (!class_exists('ZtAssets'))
          */
         public function addScript($key)
         {
-            $assetFile = $this->getAssetUrl($file);
+            if (filter_var($key, FILTER_VALIDATE_URL))
+            {
+                $assetFile = $key;
+            } else
+            {
+                $assetFile = $this->getAssetUrl($key);
+            }
             if ($assetFile)
             {
                 $doc = JFactory::getDocument();
