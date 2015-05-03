@@ -20,7 +20,7 @@ if (!class_exists('plgSystemZt'))
         public function __construct(&$subject, $config = array())
         {
             parent::__construct($subject, $config);
-            require_once __DIR__ . '/framework/bootstrap.php';
+            require_once __DIR__ . '/core/bootstrap.php';
         }
 
         public function onAfterDispatch()
