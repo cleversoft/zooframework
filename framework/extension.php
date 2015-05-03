@@ -1,19 +1,55 @@
 <?php
 
 /**
- * {$id}
+ * Zt (http://www.zootemplate.com/zo2)
+ * A powerful Joomla template framework
+ *
+ * @link        http://www.zootemplate.com/zo2
+ * @link        https://github.com/cleversoft/zo2
+ * @author      ZooTemplate <http://zootemplate.com>
+ * @copyright   Copyright (c) 2014 CleverSoft (http://cleversoft.co/)
+ * @license     GPL v2
  */
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('ZtFramework'))
+/**
+ * Class exists checking
+ */
+if (!class_exists('ZtExtension'))
 {
 
-    class ZtFramework
+
+    class ZtExtension
     {
 
-        public static $registeredExtensions;
+        /**
+         * Singleton instance
+         * @var ZtExtension
+         */
+        public static $instance;
 
-        public static function registerExtension($extension, $namespace, $isAdmin = false)
+        /**
+         * Get instance of ZtExtension
+         * @return \ZtExtension
+         */
+        public static function getInstance()
+        {
+            if (!isset(self::$instance))
+            {
+                self::$instance = new ZtExtension();
+            }
+            if (isset(self::$instance))
+            {
+                return self::$instance;
+            }
+        }
+
+        public function registerExtension($extension, $namespace, $isAdmin = false)
+        {
+            $this->_registerPaths($extension, $namespace, $isAdmin = false);
+        }
+
+        private function _registerPaths($extension, $namespace, $isAdmin = false)
         {
             $ztPath = ZtPath::getInstance();
             $parts = explode('.', $extension);
@@ -50,7 +86,7 @@ if (!class_exists('ZtFramework'))
             $ztPath->registerNamespace($namespace, implode(DIRECTORY_SEPARATOR, $path['root']) . DIRECTORY_SEPARATOR . 'local');
         }
 
-        protected static function isExtensionRegistered($extension, $namespace, $isAdmin = false)
+        public function isExtensionRegistered($extension)
         {
             $session = JFactory::getSession();
             if ($session->get($extension, null, 'Zt'))
@@ -62,32 +98,6 @@ if (!class_exists('ZtFramework'))
             }
         }
 
-        public static function import($key)
-        {
-            $path = ZtPath::getInstance();
-            $filePath = $path->getPath($key);
-            if ($filePath)
-            {
-                return require_once $filePath;
-            }
-            return false;
-        }
-
-        public static function addStyleSheet($key)
-        {
-            return ZtAssets::getInstance()->addStyleSheet($key);
-        }
-
-        public static function isAjax()
-        {
-            $input = JFactory::getApplication()->input;
-            if ($input->get('zt') == 'ajax')
-            {
-                return true;
-            }
-            return false;
-        }
-
     }
 
-}
+}    

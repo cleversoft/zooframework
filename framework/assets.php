@@ -65,13 +65,9 @@ if (!class_exists('ZtAssets'))
          */
         public function addStyleSheet($key)
         {
-            if (filter_var($key, FILTER_VALIDATE_URL))
-            {
-                $assetFile = $key;
-            } else
-            {
-                $assetFile = $this->getAssetUrl($key);
-            }
+
+            $assetFile = $this->getAssetUrl($key);
+
 
             if ($assetFile)
             {
@@ -87,17 +83,27 @@ if (!class_exists('ZtAssets'))
          */
         public function addScript($key)
         {
-            if (filter_var($key, FILTER_VALIDATE_URL))
-            {
-                $assetFile = $key;
-            } else
-            {
-                $assetFile = $this->getAssetUrl($key);
-            }
+            $assetFile = $this->getAssetUrl($key);
+
             if ($assetFile)
             {
                 $doc = JFactory::getDocument();
                 $doc->addScript($assetFile);
+            }
+        }
+
+        public static function import($assets = array())
+        {
+            foreach ($assets as $asset)
+            {
+                $ext = JFile::getExt($asset);
+                if ($ext == 'css')
+                {
+                    self::getInstance()->addStyleSheet($asset);
+                } else
+                {
+                    self::getInstance()->addScript($asset);
+                }
             }
         }
 
