@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
             userLogin: function (username, password) {
                 z.ajax.request({
                     data: {
-                        zt_cmd: "ajax",
+                        zt_cmd: "ajax.add",
                         zt_namespace: "Zt",
                         zt_task: "userLogin",
                         username: username,

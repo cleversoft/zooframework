@@ -23,11 +23,16 @@ if (!class_exists('plgSystemZt')) {
         public function onAfterDispatch() {
             $input = JFactory::getApplication()->input;
             $ztCommand = $input->getCmd('zt_cmd');
-            if ($ztCommand) {
-                if ($ztCommand = 'ajax') {
+            $ztCommand = explode('.', $ztCommand);
+            if ($ztCommand[0]) {
+                if ($ztCommand[0] = 'ajax') {
                     $class = $input->get('zt_namespace') . 'HelperAjax';
+                    $task = $input->get('zt_task');                    
                     if (class_exists($class)) {
-                        call_user_func(array($class, $input->get('zt_task')));
+                        $data = call_user_func(array($class, $task));
+                        $ajax = ZtAjax::getInstance();
+                        call_user_func_array(array($ajax, $ztCommand[1]), $data);
+                        $ajax->response();
                     }
                 }
             }
