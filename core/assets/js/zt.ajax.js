@@ -4,13 +4,18 @@
  * @param {type} z
  * @param {type} $
  * @returns {undefined}
- */
-jQuery(document).ready(function(){
-    
+ */    
 (function (w, z, $) {
     /* Reject if zt is not defined */
-    if (typeof (z) === 'undefined')
+    if (typeof (z) === 'undefined') {
+        console.log('Error: Zt Javsacript Framework not available.');
         return false;
+    }
+    /* Reject if Zt UI is not defined */
+    if (typeof (z.ui) === 'undefined') {
+        console.log('Error: Zt Javsacript Framework not available.');
+        return false;
+    }
 
     /* Local ajax class */
     var _ajax = {
@@ -118,5 +123,3 @@ jQuery(document).ready(function(){
     z.ajax._init();
     
 })(window, zt, zt.$);
-
-});

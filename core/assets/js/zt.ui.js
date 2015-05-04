@@ -5,12 +5,12 @@
  * @param {type} $
  * @returns {undefined}
  */
-jQuery(document).ready(function(){
-    
 (function (w, z, $) {
     /* Reject if zt is not defined */
-    if (typeof (z) === 'undefined')
+    if (typeof (z) === 'undefined') {
+        console.log('Error: Zt Javsacript Framework not available.');
         return false;
+    }
 
     /* Local ajax class */
     var _ui = {
@@ -54,5 +54,3 @@ jQuery(document).ready(function(){
     z.ui._init();
     
 })(window, zt, zt.$);
-
-});

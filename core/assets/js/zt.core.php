@@ -1,3 +1,17 @@
+<?php
+/* Load Joomla! Framework */
+define('_JEXEC', 1);
+define('JPATH_BASE', realpath('../../../../../../'));
+require_once ( JPATH_BASE . '/includes/defines.php' );
+require_once ( JPATH_BASE . '/includes/framework.php' );
+
+/* Create the Application */
+$app = JFactory::getApplication('site');
+/* Load Crex */
+require_once JPATH_BASE . '/plugins/system/zt/core/includes/defines.php';
+
+header("Content-type: application/x-javascript; charset: UTF-8");
+?>
 /**     
  * @param {object} w Window pointer
  * @param {object} $ jQuery pointer
