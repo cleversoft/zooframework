@@ -131,7 +131,7 @@ if (!class_exists('ZtAjax'))
          */
         public function response()
         {
-            header('Content-type: text/html; charset=utf-8');
+            header('Content-type: application/json; charset=utf-8');
             echo json_encode($this->_responses);
             exit();
         }
