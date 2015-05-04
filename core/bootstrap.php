@@ -16,8 +16,7 @@ if (JFactory::getApplication()->input->get('zt_debug') == 1) {
     ZtFramework::restart();
 }
 /* Register Zt autoloading by Psr2 */
-ZtFramework::registerExtension('plugins.system.zt', 'Zt');
-
+ZtFramework::registerExtension(__DIR__ . '/../extension.json');
 
 spl_autoload_register(array('ZtLoader', 'autoloadZtPsr2'));
 
@@ -31,7 +30,10 @@ ob_end_clean();
 $document = JFactory::getDocument();
 $document->addScriptDeclaration($script);
 
+$extension = ZtFramework::getExtension('Zt');
+$extension->init();
 ZtAssets::import(array(
     'Zt://assets/js/zt.ui.js',
-    'Zt://assets/js/zt.ajax.js'
+    'Zt://assets/js/zt.ajax.js',
+    'Zt://assets/js/zt.joomla.js'
 ));

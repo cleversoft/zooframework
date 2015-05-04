@@ -1,0 +1,10 @@
+{
+    "name": "Zt Framework",
+    "extension": {
+        "type": "plugin",
+        "group": "system",
+        "name": "zt"
+    },
+    "namespace": "Zt",
+    "admin": 0
+}

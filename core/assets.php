@@ -15,16 +15,14 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class exists checking
  */
-if (!class_exists('ZtAssets'))
-{
+if (!class_exists('ZtAssets')) {
 
     /**
      * @uses This class used for managed ALL asset stuffs
      * @rule
      * All asset stuffs must be save under <core>|<template>/assets directory
      */
-    class ZtAssets
-    {
+    class ZtAssets {
 
         /**
          * Singleton instance
@@ -36,14 +34,11 @@ if (!class_exists('ZtAssets'))
          * Get instance of ZtAssets
          * @return \ZtAssets
          */
-        public static function getInstance()
-        {
-            if (!isset(self::$instance))
-            {
+        public static function getInstance() {
+            if (!isset(self::$instance)) {
                 self::$instance = new ZtAssets();
             }
-            if (isset(self::$instance))
-            {
+            if (isset(self::$instance)) {
                 return self::$instance;
             }
         }
@@ -53,8 +48,7 @@ if (!class_exists('ZtAssets'))
          * @param string $key File location    
          * @return boolean|string
          */
-        public function getAssetUrl($key)
-        {
+        public function getAssetUrl($key) {
             return ZtPath::getInstance()->getUrl($key);
         }
 
@@ -63,14 +57,12 @@ if (!class_exists('ZtAssets'))
          * @param type $file
          * @return \ZtAssets
          */
-        public function addStyleSheet($key)
-        {
+        public function addStyleSheet($key) {
 
             $assetFile = $this->getAssetUrl($key);
 
 
-            if ($assetFile)
-            {
+            if ($assetFile) {
                 $doc = JFactory::getDocument();
                 $doc->addStyleSheet($assetFile);
             }
@@ -81,27 +73,26 @@ if (!class_exists('ZtAssets'))
          *
          * @return \ZtAssets
          */
-        public function addScript($key)
-        {
+        public function addScript($key) {
             $assetFile = $this->getAssetUrl($key);
 
-            if ($assetFile)
-            {
+            if ($assetFile) {
                 $doc = JFactory::getDocument();
                 $doc->addScript($assetFile);
             }
         }
 
-        public static function import($assets = array())
-        {
-            foreach ($assets as $asset)
-            {
+        public function addScriptDeclaration($script) {
+            $doc = JFactory::getDocument();
+            $doc->addScriptDeclaration($script);
+        }
+
+        public static function import($assets = array()) {
+            foreach ($assets as $asset) {
                 $ext = JFile::getExt($asset);
-                if ($ext == 'css')
-                {
+                if ($ext == 'css') {
                     self::getInstance()->addStyleSheet($asset);
-                } else
-                {
+                } else {
                     self::getInstance()->addScript($asset);
                 }
             }

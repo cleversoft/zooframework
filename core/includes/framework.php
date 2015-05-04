@@ -19,13 +19,20 @@ if (!class_exists('ZtFramework')) {
             return $session->set($name, $value, 'Zt');
         }
 
-        public static function registerExtension($name, $namespace, $isAdmin = false) {
-            $ztExtensions = ZtExtensions::getInstance();
-            $ztExtensions->registerExtension($name, $namespace, $isAdmin);
+        public static function registerExtension($file) {
+            if (JFile::exists($file)) {
+                $content = file_get_contents($file);
+                $extension = json_decode($content);
+                ZtExtensions::getInstance()->register($extension);
+            }
         }
 
-        public static function getExtension($name) {
-            ZtExtensions::getInstance()->get($name);
+        public static function getExtension($namespace, $flush = false) {
+            static $extensions;
+            if (!isset($extensions[$namespace]) || $flush) {
+                $extensions[$namespace] = new ZtObjectExtension(ZtExtensions::getInstance()->get($namespace));
+            }
+            return $extensions[$namespace];
         }
 
         public static function import($key) {

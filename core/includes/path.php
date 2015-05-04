@@ -86,21 +86,20 @@ if (!class_exists('ZtPath')) {
          */
         protected function _getPath($namespace, $path) {
             // Find in session
-            $namespaces = ZtFramework::getSession('namespaces', array());
+            $namespaces = ZtFramework::getSession('extensions', array());
+
             if (isset($namespaces[$namespace])) {
-                $extension = ZtFramework::getSession($namespaces[$namespace]);
-                $namespaces = $extension->get('paths', array());
+                $paths = $namespaces[$namespace]->paths;
             } else {
                 if (isset($this->_namespaces[$namespace])) {
-                    $namespaces = $this->_namespaces[$namespace];
+                    $paths = $this->_namespaces[$namespace];
                 } else {
-                    $namespaces = array();
+                    $paths = array();
                 }
             }
             /* Find first exists filePath */
-            foreach ($namespaces as $namespace) {
-                $physicalPath = $namespace . DIRECTORY_SEPARATOR . $path;
-
+            foreach ($paths as $_path) {
+                $physicalPath = $_path . DIRECTORY_SEPARATOR . $path;
                 if (JFile::exists($physicalPath)) {
                     return rtrim(str_replace('/', DIRECTORY_SEPARATOR, $physicalPath), DIRECTORY_SEPARATOR);
                 } elseif (JFolder::exists($physicalPath)) {
