@@ -9,6 +9,8 @@ require_once ( JPATH_BASE . '/includes/framework.php' );
 $app = JFactory::getApplication('site');
 /* Load Crex */
 require_once JPATH_BASE . '/plugins/system/zt/core/includes/defines.php';
+$urlRoot = rtrim(JUri::root(),'/');
+$urlRoot = str_replace('plugins/system/zt/core/assets/js/','',$urlRoot);
 
 header("Content-type: application/x-javascript; charset: UTF-8");
 ?>
@@ -27,8 +29,8 @@ header("Content-type: application/x-javascript; charset: UTF-8");
                 /* Zt current version */
                 version: "<?php echo ZTVERSION; ?>",
                 /* Joomla! URL root */
-                frontendUrl: "<?php echo rtrim(JUri::root(), '/') . '/ '; ?>",
-                backendUrl: "<?php echo rtrim(JUri::root(), '/') . '/administrator/'; ?>",
+                frontendUrl: "<?php echo $urlRoot . '/ '; ?>",
+                backendUrl: "<?php echo $urlRoot . '/administrator/'; ?>",
                 /* Joomla! security torken */
                 token: "<?php echo JSession::getFormToken(); ?>"
             },
