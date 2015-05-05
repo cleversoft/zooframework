@@ -23,13 +23,6 @@ spl_autoload_register(array('ZtLoader', 'autoloadZtPsr2'));
 /* Include JS Framework core */
 JHtml::_('bootstrap.framework');
 
-/* Import Zt Assets */
-ZtAssets::import(array(
-    'Zt://assets/js/zt.core.php',
-    'Zt://assets/js/zt.ui.js',
-    'Zt://assets/js/zt.ajax.js',
-    'Zt://assets/js/zt.joomla.js'
-));
 /* Extension init */
 $extension = ZtFramework::getExtension('Zt');
 $extension->init();

@@ -40,8 +40,6 @@ if (!class_exists('ZtObjectExtension')) {
                 $this->namespace . '://assets/js/scripts.js',
                 $this->namespace . '://assets/css/styles.css',
             ));
-            $script = 'var ' . $this->namespace . '= ' . json_encode($this);
-            ZtAssets::getInstance()->addScriptDeclaration($script);
         }
 
     }

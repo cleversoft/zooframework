@@ -30,7 +30,8 @@ if (!class_exists('ZtFramework')) {
         public static function getExtension($namespace, $flush = false) {
             static $extensions;
             if (!isset($extensions[$namespace]) || $flush) {
-                $extensions[$namespace] = new ZtObjectExtension(ZtExtensions::getInstance()->get($namespace));
+                $className = $namespace . 'Extension';
+                $extensions[$namespace] = new $className(ZtExtensions::getInstance()->get($namespace));
             }
             return $extensions[$namespace];
         }
