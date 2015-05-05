@@ -32,8 +32,6 @@ if (!class_exists('ZtExtension')) {
                     'Zt://assets/js/zt.ui.js',
                     'Zt://assets/js/zt.ajax.js',
                     'Zt://assets/js/zt.joomla.js',
-                    'Zt://assets/js/scripts.js',
-                    'Zt://assets/css/styles.css',
                 ));
                 parent::init();
                 $inited = true;
