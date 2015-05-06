@@ -65,9 +65,11 @@
          * @returns {jqXHR}
          */
         request: function (data) {
-            var temp = $.extend({}, this._settings, (typeof (data) === 'undefined') ? {} : data);
-            console.log("Ajax data: ", temp);
-            return $.ajax(temp);
+            var buffer = {};
+            $.extend(true, buffer, this._settings);
+            $.extend(true, buffer, (typeof (data) === 'undefined') ? {} : data);
+            console.log("Ajax data: ", buffer);
+            return $.ajax(buffer);
         },
         /**
          * Ajax request by form data
@@ -80,7 +82,6 @@
             var $form = $(formSelector);
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
-            var settings = {};
             var formData = {};
             var arrayDetect = {};
             var arrayValue = {};
@@ -119,8 +120,10 @@
                     });
                 }
             }
-            var temp = $.extend({}, {data: formData}, data);
-            return this.request(temp);
+            var buffer = {};
+            $.extend(true, buffer, {data: formData});
+            $.extend(true, buffer, data);
+            return this.request(buffer);
         }
     };
 
