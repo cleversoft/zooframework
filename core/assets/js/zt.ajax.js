@@ -36,14 +36,20 @@
                     $.each(data, function(key, item){
                         switch(key){
                             case 'html':
-                                z.ui.replace(item.target, item.html);
+                                $.each(item, function(){
+                                    z.ui.replace(this.target, this.html);
+                                });
                                 break;
                             case 'appendHtml':
-                                z.ui.append(item.target, item.html);
+                                $.each(item, function(){
+                                    z.ui.append(this.target, this.html);
+                                });
                                 break;
                             case 'exec':
                             case 'execute':
-                                eval(item);
+                                $.each(item, function(){
+                                    eval(this.toString());
+                                });
                                 break;
                             default:
                                 break;
