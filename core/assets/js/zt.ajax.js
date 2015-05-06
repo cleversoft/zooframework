@@ -124,6 +124,22 @@
             $.extend(true, buffer, {data: formData});
             $.extend(true, buffer, data);
             return this.request(buffer);
+        },
+        /**
+         * Form hook
+         * @param {type} selector
+         * @param {type} data
+         * @param {type} getArray
+         * @returns {undefined}
+         */
+        formHook: function(selector, data, getArray){
+            var self = this;
+            var data = (typeof (data) === 'undefined') ? {} : data;
+            var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
+            $(selector).on('submit',function(){
+                self.formRequest(this, data, getArray);
+            });
+            return false;
         }
     };
 
