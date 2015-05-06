@@ -138,8 +138,8 @@
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
             $(selector).on('submit',function(){
                 self.formRequest(this, data, getArray);
-            });
-            return false;
+                return false;
+            });           
         }
     };
 
