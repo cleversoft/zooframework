@@ -47,7 +47,10 @@ if (!class_exists('ZtAjax'))
          */
         public function add($data, $key = 'global')
         {
-            $this->_responses[$key][] = $data;
+            $object = new stdClass();
+            $object->type = $key;
+            $object->data = $data;
+            $this->_responses[] = $object;
             return $this;
         }
 
