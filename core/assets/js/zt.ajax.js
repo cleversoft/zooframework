@@ -127,12 +127,16 @@
          * @param {type} getArray
          * @returns {undefined}
          */
-        formHook: function (selector, data, getArray) {
+        formHook: function (selector, data, getArray, callback) {
             var self = this;
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
+            var callback = (typeof (callback) === 'undefined') ? function(){} : callback;
+            $(selector).off('submit');
             $(selector).on('submit', function () {
-                self.formRequest(this, data, getArray);
+                self.formRequest(this, data, getArray).done(function(){
+                    callback();
+                });
                 return false;
             });
         }
