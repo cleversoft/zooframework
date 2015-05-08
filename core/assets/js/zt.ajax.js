@@ -125,10 +125,14 @@
          * @param {type} selector
          * @param {type} data
          * @param {type} getArray
+         * @param {type} callback
          * @returns {undefined}
          */
         formHook: function (selector, data, getArray, callback) {
             var self = this;
+            if($(selector).length <= 0){
+                return false;
+            }
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
             var callback = (typeof (callback) === 'undefined') ? function(){} : callback;
