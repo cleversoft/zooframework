@@ -4,7 +4,7 @@
  * @param {type} z
  * @param {type} $
  * @returns {undefined}
- */    
+ */
 (function (w, z, $) {
     /* Reject if zt is not defined */
     if (typeof (z) === 'undefined') {
@@ -31,29 +31,24 @@
                 type: "POST",
                 data: {
                 },
-                success: function(data){
+                success: function (data) {
                     console.log("Reponse data: ", data);
-                    $.each(data, function(key, item){
-                        switch(key){
+                    $.each(data, function (index, item) {
+                        switch (item.type) {
                             case 'html':
-                                $.each(item, function(){
-                                    z.ui.replace(this.target, this.html);
-                                });
+                                z.ui.replace(item.data.target, item.data.html);
                                 break;
                             case 'appendHtml':
-                                $.each(item, function(){
-                                    z.ui.append(this.target, this.html);
-                                });
+                                z.ui.append(item.data.target, item.data.html);
                                 break;
                             case 'exec':
                             case 'execute':
-                                $.each(item, function(){
-                                    eval(this.toString());
-                                });
+                                eval(item.data.toString());
                                 break;
                             default:
                                 break;
-                        };
+                        }
+                        ;
                     });
                 }
             };
@@ -132,19 +127,19 @@
          * @param {type} getArray
          * @returns {undefined}
          */
-        formHook: function(selector, data, getArray){
+        formHook: function (selector, data, getArray) {
             var self = this;
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
-            $(selector).on('submit',function(){
+            $(selector).on('submit', function () {
                 self.formRequest(this, data, getArray);
                 return false;
-            });           
+            });
         }
     };
 
     /* Append to Zt JS Framework */
     z.ajax = _ajax;
     z.ajax._init();
-    
+
 })(window, zt, zt.$);
