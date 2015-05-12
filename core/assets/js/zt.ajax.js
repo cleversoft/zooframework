@@ -45,6 +45,11 @@
                             case 'execute':
                                 eval(item.data.toString());
                                 break;
+                            case 'message':
+                                $.each(item, function(childKey, childValue) {
+                                    z.ui.raiseMessage(childValue);
+                                });
+                                break;
                             default:
                                 break;
                         }
