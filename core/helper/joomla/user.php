@@ -60,11 +60,11 @@ if (!class_exists('ZtHelperJoomlaUser'))
                 'email1',
                 'email2',
             );
-            foreach ($_data as $key => $value)
+            foreach ($_data as $value)
             {
-                if (isset($data[$key]))
+                if (!isset($data[$value]))
                 {
-                    $_data[$key] = $data[$key];
+                    $_data[$value] = $data[$value];
                 }
             }
             $data = $_data;
