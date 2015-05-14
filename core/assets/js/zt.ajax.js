@@ -21,6 +21,8 @@
     var _ajax = {
         /* Local settings */
         _settings: {},
+        ajaxDutyTimeout: 0,
+        ajaxIsOnDuty: false,
         /**
          * Init function
          * @returns {undefined}
@@ -31,7 +33,19 @@
                 type: "POST",
                 data: {
                 },
+                beforeSend: function(){
+                    z.ui.showAjaxOverlay();
+                    z.ajax.ajaxIsOnDuty = true;
+                },
                 success: function (data) {
+                    if(z.ajax.ajaxDutyTimeout){
+                        w.clearTimeout(z.ajax.ajaxDutyTimeout);
+                        z.ajax.ajaxDutyTimeout = 0;
+                    }
+                    z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
+                        z.ui.hideAjaxOverlay();
+                        z.ajax.ajaxIsOnDuty = false;
+                    }, 3000);
                     console.log("Reponse data: ", data);
                     $.each(data, function (index, item) {
                         switch (item.type) {
@@ -55,6 +69,16 @@
                         }
                         ;
                     });
+                },
+                error: function(){
+                    if(z.ajax.ajaxDutyTimeout){
+                        w.clearTimeout(z.ajax.ajaxDutyTimeout);
+                        z.ajax.ajaxDutyTimeout = 0;
+                    }
+                    z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
+                        z.ui.hideAjaxOverlay();
+                        z.ajax.ajaxIsOnDuty = false;
+                    }, 3000);
                 }
             };
             this._settings.data[z.settings.token] = 1;
