@@ -28,6 +28,7 @@ if (!class_exists('ZtExtension')) {
             if ($inited == false) {
                 /* Import Zt Assets */
                 ZtAssets::import(array(
+                    'Zt://assets/css/zt.core.css',
                     'Zt://assets/js/zt.core.php',
                     'Zt://assets/js/zt.ui.js',
                     'Zt://assets/js/zt.ajax.js',
