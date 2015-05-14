@@ -62,7 +62,7 @@ if (!class_exists('ZtHelperJoomlaUser'))
             );
             foreach ($_data as $value)
             {
-                if (!isset($data[$value]))
+                if (isset($data[$value]))
                 {
                     $_data[$value] = $data[$value];
                 }
@@ -110,8 +110,10 @@ if (!class_exists('ZtHelperJoomlaUser'))
                 return false;
             }
 
+            $message[] = 'User created';
+
             $config = JFactory::getConfig();
-            $db = $this->getDbo();
+            $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
             // Compile the notification mail values.
@@ -212,9 +214,8 @@ if (!class_exists('ZtHelperJoomlaUser'))
                     $rows = $db->loadObjectList();
                 } catch (RuntimeException $e)
                 {
-                    $this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
-                    return false;
+                    //$message[] = JText::sprintf('COM_USERS_DATABASE_ERROR', (string)$e->getMessage());
                 }
 
                 // Send mail to all superadministrators id
@@ -225,9 +226,7 @@ if (!class_exists('ZtHelperJoomlaUser'))
                     // Check for an error.
                     if ($return !== true)
                     {
-                        $this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-
-                        return false;
+                        $message[] = JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED');
                     }
                 }
             }
@@ -235,8 +234,7 @@ if (!class_exists('ZtHelperJoomlaUser'))
             // Check for an error.
             if ($return !== true)
             {
-                $this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
-
+                //$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
                 // Send a system message to administrators receiving system mails
                 $db = JFactory::getDbo();
                 $query->clear()
@@ -251,9 +249,7 @@ if (!class_exists('ZtHelperJoomlaUser'))
                     $sendEmail = $db->loadColumn();
                 } catch (RuntimeException $e)
                 {
-                    $this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
-
-                    return false;
+                    $message[] = JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED');
                 }
 
                 if (count($sendEmail) > 0)
@@ -281,26 +277,27 @@ if (!class_exists('ZtHelperJoomlaUser'))
                             $db->execute();
                         } catch (RuntimeException $e)
                         {
-                            $this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
-
-                            return false;
+                            //$message[] = JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage());
                         }
                     }
                 }
 
-                return false;
+                //return false;
             }
 
             if ($useractivation == 1)
             {
-                return "useractivate";
+                $message[] = 'Waiting for activation';
             } elseif ($useractivation == 2)
             {
-                return "adminactivate";
+                $message[] = 'Waiting for admin activation';
             } else
             {
-                return $user->id;
+                $message[] = 'Register success';
             }
+            $_return ['status'] = true;
+            $_return ['message'] = $message;
+            return $_return;
         }
 
     }
