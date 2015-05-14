@@ -45,7 +45,7 @@
                     z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
-                    }, 3000);
+                    }, 1000);
                     console.log("Reponse data: ", data);
                     $.each(data, function (index, item) {
                         switch (item.type) {
@@ -78,7 +78,7 @@
                     z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
-                    }, 3000);
+                    }, 1000);
                 }
             };
             this._settings.data[z.settings.token] = 1;
