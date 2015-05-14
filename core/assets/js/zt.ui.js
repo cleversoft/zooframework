@@ -17,7 +17,9 @@
         /* Selector */
         _elements:{
             messageContainerId: '#zt-framework-container-message',
-            messageContainerClass: '.zt-framework-container-message'
+            messageContainerClass: '.zt-framework-container-message',
+            ajaxOverlayId: '#zt-framework-ajax-overlay',
+            ajaxOverlayClass: '.zt-framework-ajax-overlay'
         },
         /* Local settings */
         _settings: {
@@ -44,6 +46,7 @@
          */
         _init: function () {
             this._addMessageContainer();
+            this._addAjaxOverlay();
         },
         /**
          * Add message container
@@ -58,6 +61,34 @@
                 $messageContainer.addClass(self._elements.messageContainerClass.substr(1));
                 self.append('body', $messageContainer);
             });
+        },
+        /**
+         * Add ajax overlay
+         * @returns {undefined}
+         */
+        _addAjaxOverlay: function(){
+             var self = this;
+            $(w.document).ready(function () {
+                $('div' + self._elements.ajaxOverlayId).remove();
+                var $messageContainer = $('<div></div>');
+                $messageContainer.attr('id', self._elements.ajaxOverlayId.substr(1));
+                $messageContainer.addClass(self._elements.ajaxOverlayClass.substr(1));
+                self.append('body', $messageContainer);
+            });
+        },
+        /**
+         * Show ajax overlay
+         * @returns {undefined}
+         */
+        showAjaxOverlay: function(){
+            $('div' + this._elements.ajaxOverlayId).fadeIn('slow');
+        },
+        /**
+         * Hide ajax overlay
+         * @returns {undefined}
+         */
+        hideAjaxOverlay: function(){
+            $('div' + this._elements.ajaxOverlayId).fadeOut('slow');
         },
         /**
          * Replace HTML content inside element
