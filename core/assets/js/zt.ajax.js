@@ -60,9 +60,7 @@
                                 eval(item.data.toString());
                                 break;
                             case 'message':
-                                $.each(item, function(childKey, childValue) {
-                                    z.ui.raiseMessage(childValue);
-                                });
+                                z.ui.raiseMessage(item.data.message);
                                 break;
                             default:
                                 break;

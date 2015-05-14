@@ -113,6 +113,7 @@ if (!class_exists('ZtAjax'))
             $html->set('header', $header);
             $html->set('message', $message);
             $html->set('type', $messageType);
+            $html->set('originalType', $type);
             $data = new stdClass();
             $data->message = $html->fetch('Zt://html/message.php');
             $this->add($data, 'message');

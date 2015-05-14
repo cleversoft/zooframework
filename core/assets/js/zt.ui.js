@@ -23,22 +23,7 @@
         },
         /* Local settings */
         _settings: {
-            defaultMessage: {
-                /* HTML source */
-                html: '',
-                /* Options */
-                options: {
-                    /* Append or create new */
-
-                    append: true,
-                    /* Delay after close */
-
-                    delayClose: 10000,
-                    /* Child message ID */
-                    childID: ''
-
-                }
-            }
+            messageAppear: 5000
         },
         /**
          * Init function
@@ -118,7 +103,7 @@
             animation = (typeof animation === 'undefined') ? false : animation;
             /* Is animation present ? */
             if (animation) {
-                $(target).hide('slow', function() {
+                $(target).fadeOut('slow', function() {
                     $(this).remove();
                 });
             } else {
@@ -127,27 +112,16 @@
         },
         /**
          * Raise message
-         * @param {type} messageSettings
+         * @param {type} message
          * @returns {undefined}
          */
-        raiseMessage: function (messageSettings) {
-            /* Fix default settings is override */
-            var mySettings = {};
-            $.extend(true, mySettings, this._settings.defaultMessage);
-            /* Merge setting with default setting */
-            $.extend(true, mySettings, messageSettings);
-            /* Append or override */
-            if (mySettings.options.append) {
-                this.append(this._elements.messageContainerId, mySettings.html);
-            } else {
-                this.replace(this._selectors.message, mySettings.html);
-            }
-            /* Hide message after a moment */
-            if (mySettings.options.delayClose >= 0 && mySettings.childID !== '') {
-                w.setTimeout(function() {
-                    this.remove('#' + mySettings.options.childID, true);
-                }, mySettings.options.delayClose);
-            }
+        raiseMessage: function (message) {
+            var self = this;
+            this.append(this._elements.messageContainerId, message);
+            w.setTimeout(function(){
+               self.remove($(self._elements.messageContainerId).children().last(), true);
+            }, this._settings.messageAppear);
+            
         }
     };
 
