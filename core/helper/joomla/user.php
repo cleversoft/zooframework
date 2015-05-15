@@ -18,19 +18,25 @@ if (!class_exists('ZtHelperJoomlaUser'))
     class ZtHelperJoomlaUser
     {
 
-        public static function login($username, $password)
+        public static function login($username, $password, $options = array())
         {
             jimport('joomla.user.authentication');
             $auth = JAuthentication::getInstance();
-            $credentials = array('username' => $username, 'password' => $password);
-            $options = array();
-            $response = $auth->authenticate($credentials, $options);
 
-            JPluginHelper::importPlugin('user');
-            $options = array();
-            $options['action'] = 'core.login.site';
-            $result = JFactory::getApplication()->triggerEvent('onUserLogin', array((array) $response, $options));
-            return $result;
+            $credentials = array('username' => $username, 'password' => $password);
+
+            $response = $auth->authenticate($credentials, $options);
+            if ($response->status == JAuthentication::STATUS_SUCCESS)
+            {
+                JPluginHelper::importPlugin('user');
+
+                $options['action'] = 'core.login.site';
+                $result = JFactory::getApplication()->triggerEvent('onUserLogin', array((array) $response, $options));
+                return $result;
+            } else
+            {
+                return false;
+            }
         }
 
         public static function logout()
