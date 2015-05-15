@@ -18,23 +18,62 @@ if (!class_exists('ZtHelperJoomlaUser'))
     class ZtHelperJoomlaUser
     {
 
-        public static function login($username, $password, $options = array())
+        /**
+         * 
+         * @param type $username
+         * @param type $password
+         * @param string $options
+         * @return boolean
+         */
+        public static function login($username, $password, $secretkey = '', $return = '', $options = array())
         {
-            jimport('joomla.user.authentication');
-            $auth = JAuthentication::getInstance();
+            $app = JFactory::getApplication();
+            // Populate the data array:
+            $data = array();
 
-            $credentials = array('username' => $username, 'password' => $password);
+            $data['return'] = base64_decode($return);
+            $data['username'] = $username;
+            $data['password'] = $password;
+            $data['secretkey'] = $secretkey;
 
-            $response = $auth->authenticate($credentials, $options);
-            if ($response->status == JAuthentication::STATUS_SUCCESS)
+            // Set the return URL if empty.
+            if (empty($data['return']))
             {
-                JPluginHelper::importPlugin('user');
+                $data['return'] = 'index.php?option=com_users&view=profile';
+            }
 
-                $options['action'] = 'core.login.site';
-                $result = JFactory::getApplication()->triggerEvent('onUserLogin', array((array) $response, $options));
-                return $result;
+            // Set the return URL in the user state to allow modification by plugins
+            $app->setUserState('users.login.form.return', $data['return']);
+
+            // Get the log in options.
+            $options = array();
+            $options['remember'] = (isset($options['remember'])) ? $options['remember'] : false;
+            $options['return'] = $data['return'];
+
+            // Get the log in credentials.
+            $credentials = array();
+            $credentials['username'] = $data['username'];
+            $credentials['password'] = $data['password'];
+            $credentials['secretkey'] = $data['secretkey'];
+
+            // Perform the log in.
+            if (true === $app->login($credentials, $options))
+            {
+                // Success
+                if ($options['remember'] == true)
+                {
+                    $app->setUserState('rememberLogin', true);
+                }
+
+                $app->setUserState('users.login.form.data', array());
+                //$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
+                return true;
             } else
             {
+                // Login failed !
+                $data['remember'] = (int) $options['remember'];
+                $app->setUserState('users.login.form.data', $data);
+                //$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
                 return false;
             }
         }
