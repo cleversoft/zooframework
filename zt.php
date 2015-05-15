@@ -30,16 +30,18 @@ if (!class_exists('plgSystemZt'))
 
             if ($ztCommand)
             {
-                if ($ztCommand = 'ajax')
+                switch ($ztCommand)
                 {
-                    $class = $input->get('zt_namespace') . 'HelperAjax';
-                    $task = $input->get('zt_task');
-                    if (class_exists($class))
-                    {
-                        call_user_func(array($class, $task));
-                        $ajax = ZtAjax::getInstance();
-                        $ajax->response();
-                    }
+                    case 'ajax':
+                        $class = $input->get('zt_namespace') . 'HelperAjax';
+                        $task = $input->get('zt_task');
+                        if (class_exists($class))
+                        {
+                            call_user_func(array($class, $task));
+                            $ajax = ZtAjax::getInstance();
+                            $ajax->response();
+                        }
+                        break;
                 }
             }
         }
