@@ -33,6 +33,8 @@ if (!class_exists('ZtExtension')) {
                     'Zt://assets/js/zt.ui.js',
                     'Zt://assets/js/zt.ajax.js',
                     'Zt://assets/js/zt.joomla.js',
+                    'Zt://assets/vendor/form-validator/theme-default.css',
+                    'Zt://assets/vendor/form-validator/jquery.form-validator.js'                    
                 ));
                 parent::init();
                 $inited = true;
