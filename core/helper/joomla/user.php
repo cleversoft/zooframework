@@ -22,7 +22,9 @@ if (!class_exists('ZtHelperJoomlaUser'))
          * 
          * @param type $username
          * @param type $password
-         * @param string $options
+         * @param type $secretkey
+         * @param type $return
+         * @param type $options
          * @return boolean
          */
         public static function login($username, $password, $secretkey = '', $return = '', $options = array())
@@ -45,8 +47,7 @@ if (!class_exists('ZtHelperJoomlaUser'))
             // Set the return URL in the user state to allow modification by plugins
             $app->setUserState('users.login.form.return', $data['return']);
 
-            // Get the log in options.
-            $options = array();
+            // Get the log in options.            
             $options['remember'] = (isset($options['remember'])) ? $options['remember'] : false;
             $options['return'] = $data['return'];
 
@@ -74,6 +75,30 @@ if (!class_exists('ZtHelperJoomlaUser'))
                 $data['remember'] = (int) $options['remember'];
                 $app->setUserState('users.login.form.data', $data);
                 //$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+                return false;
+            }
+        }
+
+        public static function quickLogin($email)
+        {
+
+            $options = array();
+            $options['autoregister'] = 1;
+            $options['action'] = 'core.login.site';
+
+            $password = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+            $data = array();
+            $data['email'] = $email;
+            $data['username'] = $email;
+            $data['name'] = $email;
+            $data['fullname'] = $email;
+            $data['password_clear'] = $password;
+
+            if (ZtHelperJoomlaEvent::trigger('user', 'onUserLogin', array((array) $data, $options)))
+            {
+                return true;
+            } else
+            {
                 return false;
             }
         }
