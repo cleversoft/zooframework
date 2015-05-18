@@ -36,6 +36,7 @@
                     delete z.ajax._settings.data[key];
                 }
             });
+            z.settings.token = token;
             z.ajax._settings.data[token] = 1;
         }
     };
