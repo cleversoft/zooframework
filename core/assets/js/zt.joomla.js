@@ -23,8 +23,21 @@
          */
         _init: function () {
         },
+        /**
+         * Update joomla torken
+         * @param {type} token
+         * @returns {undefined}
+         */
         updateToken: function (token) {
-            zt.ajax._settings.data[token] = 1;
+            /* Delete old torken */
+            $.each(z.ajax._settings.data, function(index, item){
+                var key = index.toString();
+                if(key.length === 32 && item === 1){
+                    delete z.ajax._settings.data[key];
+                }
+            });
+            z.settings.token = token;
+            z.ajax._settings.data[token] = 1;
         }
     };
 
