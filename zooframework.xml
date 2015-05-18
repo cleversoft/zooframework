@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system" method="upgrade">
-    <name>PLG_SYSTEM_ZT_FRAMEWORK</name>
+    <name>PLG_SYSTEM_ZOO_FRAMEWORK</name>
     <author>CleverSoft</author>
     <creationDate>Jan 2015</creationDate>
     <copyright>Copyright (c) 2008 - 2015 CleverSoft</copyright>
@@ -8,16 +8,16 @@
     <authorEmail>hello@cleversoft.co</authorEmail>
     <authorUrl>https://github.com/cleversoft</authorUrl>
     <version>1.0.0</version>
-    <description>PLG_SYSTEM_ZT_FRAMEWORK_XML_DESCRIPTION</description>
+    <description>PLG_SYSTEM_ZOO_FRAMEWORK_XML_DESCRIPTION</description>
     <!-- Languages -->
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_zt.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_zt.sys.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_zooframework.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_zooframework.sys.ini</language>
     </languages>
     <!-- Files & folder -->
     <files>                      
         <folder>core</folder>
-        <filename plugin="zt">zt.php</filename>
+        <filename plugin="zooframework">zooframework.php</filename>
         <filename>extension.json</filename>
     </files>
     <!-- Update -->

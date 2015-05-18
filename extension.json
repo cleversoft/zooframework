@@ -1,9 +1,9 @@
 {
-    "name": "Zt Framework",
+    "name": "Zoo Framework",
     "extension": {
         "type": "plugin",
         "group": "system",
-        "name": "zt"
+        "name": "zooframework"
     },
     "namespace": "Zt",
     "admin": 0

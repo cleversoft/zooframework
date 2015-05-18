@@ -8,9 +8,9 @@ require_once ( JPATH_BASE . '/includes/framework.php' );
 /* Create the Application */
 $app = JFactory::getApplication('site');
 /* Load Crex */
-require_once JPATH_BASE . '/plugins/system/zt/core/includes/defines.php';
+require_once JPATH_BASE . '/plugins/system/zooframework/core/includes/defines.php';
 
-$urlRoot = rtrim(str_replace('/plugins/system/zt/core/assets/js','',JUri::root()),'/');
+$urlRoot = rtrim(str_replace('/plugins/system/zooframework/core/assets/js','',JUri::root()),'/');
 
 header("Content-type: application/x-javascript; charset: UTF-8");
 ?>

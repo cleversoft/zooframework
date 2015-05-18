@@ -14,7 +14,7 @@ if (!class_exists('plgSystemZt'))
     /**
      * Zoo Framework entrypoint plugin
      */
-    class plgSystemZt extends JPlugin
+    class plgSystemZooframework extends JPlugin
     {
 
         public function __construct(&$subject, $config = array())
