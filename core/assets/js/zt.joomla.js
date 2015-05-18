@@ -23,17 +23,8 @@
          */
         _init: function () {
         },
-        userLogin: function (username, password) {
-            z.ajax.request({
-                data: {
-                    zt_cmd: "ajax.add",
-                    zt_namespace: "Zt",
-                    zt_task: "userLogin",
-                    username: username,
-                    password: password
-
-                }
-            })
+        updateToken: function (token) {
+            zt.ajax._settings.data[token] = 1;
         }
     };
 
