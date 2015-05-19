@@ -33,16 +33,16 @@
                 type: "POST",
                 data: {
                 },
-                beforeSend: function(){
+                beforeSend: function () {
                     z.ui.showAjaxOverlay();
                     z.ajax.ajaxIsOnDuty = true;
                 },
                 success: function (data) {
-                    if(z.ajax.ajaxDutyTimeout){
+                    if (z.ajax.ajaxDutyTimeout) {
                         w.clearTimeout(z.ajax.ajaxDutyTimeout);
                         z.ajax.ajaxDutyTimeout = 0;
                     }
-                    z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
+                    z.ajax.ajaxDutyTimeout = w.setTimeout(function () {
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
                     }, 1000);
@@ -68,12 +68,12 @@
                         ;
                     });
                 },
-                error: function(){
-                    if(z.ajax.ajaxDutyTimeout){
+                error: function () {
+                    if (z.ajax.ajaxDutyTimeout) {
                         w.clearTimeout(z.ajax.ajaxDutyTimeout);
                         z.ajax.ajaxDutyTimeout = 0;
                     }
-                    z.ajax.ajaxDutyTimeout = w.setTimeout(function(){
+                    z.ajax.ajaxDutyTimeout = w.setTimeout(function () {
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
                     }, 1000);
@@ -157,17 +157,29 @@
          */
         formHook: function (selector, data, getArray, callback) {
             var self = this;
-            if($(selector).length <= 0){
+            if ($(selector).length <= 0) {
                 return false;
             }
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
-            var callback = (typeof (callback) === 'undefined') ? function(){} : callback;
+            var callback = (typeof (callback) === 'undefined') ? function () {
+            } : callback;
             $(selector).off('submit');
             $(selector).on('submit', function () {
-                self.formRequest(this, data, getArray).done(function(){
-                    callback();
-                });
+                var checkValid = typeof ($.fn.isValid) !== 'undefined';
+                if (checkValid) {
+                    if ($(selector).isValid()) {
+                        self.formRequest(this, data, getArray).done(function () {
+                            callback();
+                        });
+                    }else{
+                        alert('Form is not valid.');
+                    }
+                } else {
+                    self.formRequest(this, data, getArray).done(function () {
+                        callback();
+                    });
+                }
                 return false;
             });
         }
