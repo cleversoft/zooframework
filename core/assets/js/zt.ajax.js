@@ -148,6 +148,31 @@
             return this.request(buffer);
         },
         /**
+         * Un hook
+         * @param {type} selector
+         * @returns {undefined}
+         */
+        unHook: function (selector) {
+            $(selector).off('submit');
+        },
+        /**
+         * Check form is valid
+         * @param {type} selector
+         * @returns {undefined}
+         */
+        formIsValid: function checkFormValidation(selector) {
+            var checkValid = typeof ($.fn.isValid) !== 'undefined';
+            if (checkValid) {
+                if ($(selector).isValid()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        },
+        /**
          * Form hook
          * @param {type} selector
          * @param {type} data
@@ -164,21 +189,18 @@
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
             var callback = (typeof (callback) === 'undefined') ? function () {
             } : callback;
-            $(selector).off('submit');
             $(selector).on('submit', function () {
-                var checkValid = typeof ($.fn.isValid) !== 'undefined';
-                if (checkValid) {
-                    if ($(selector).isValid()) {
-                        self.formRequest(this, data, getArray).done(function () {
-                            callback();
-                        });
-                    }else{
-                        alert('Form is not valid.');
+                if (typeof ($(this).data('nosubmit')) !== 'undefined') {
+                    if ($(this).data('nosubmit') === true){
+                        return false;
                     }
-                } else {
+                }
+                if (self.formIsValid(selector)) {
                     self.formRequest(this, data, getArray).done(function () {
                         callback();
                     });
+                } else {
+                    alert('Form is not valid, please check and fill all required fields.');
                 }
                 return false;
             });
