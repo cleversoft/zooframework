@@ -162,10 +162,14 @@
          */
         formIsValid: function checkFormValidation(selector) {
             var checkValid = typeof ($.fn.isValid) !== 'undefined';
+            var $current = $(selector);
             if (checkValid) {
-                if ($(selector).isValid()) {
+                if ($current.isValid()) {
                     return true;
                 } else {
+                    if(typeof($current.data('validation-error')) !== 'undefined'){
+                        alert($current.data('validation-error'));
+                    }
                     return false;
                 }
             } else {
@@ -199,8 +203,6 @@
                     self.formRequest(this, data, getArray).done(function () {
                         callback();
                     });
-                } else {
-                    alert('Form is not valid, please check and fill all required fields.');
                 }
                 return false;
             });
