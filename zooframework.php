@@ -21,6 +21,14 @@ if (!class_exists('plgSystemZt'))
         {
             parent::__construct($subject, $config);
             require_once __DIR__ . '/core/bootstrap.php';
+
+            if ($this->params->get('assets_bs3', 1))
+            {
+                ZtAssets::getInstance()->loadVendor('bootstrap', array(
+                    'css/bootstrap.css',
+                    'js/bootstrap.js'
+                ));
+            }
         }
 
         public function onAfterDispatch()

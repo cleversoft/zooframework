@@ -20,6 +20,16 @@
         <filename plugin="zooframework">zooframework.php</filename>
         <filename>extension.json</filename>
     </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="assets_bs3" type="radio" default="0" label="Load BS3" description="">
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>  
     <!-- Update -->
     <updateservers>		
         <server type="extension" name="Zo2 Framework's Updates">http://update.zo2framework.org/zo2/extension.xml</server>
