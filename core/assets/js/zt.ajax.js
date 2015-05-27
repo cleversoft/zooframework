@@ -123,8 +123,15 @@
                                 }
                             }
                         }
-                        formData[name] = value;
-                        if (getArray) {
+                        //Filter radio
+                        if(type !== 'radio'){
+                            formData[name] = value;
+                        }else{
+                            if($me.is(':checked')){
+                                formData[name] = value;
+                            }                            
+                        }                        
+                        if (getArray && type !== 'radio') {
                             arrayDetect[name] = (arrayDetect.hasOwnProperty(name)) ? arrayDetect[name] + 1 : 1;
                             if (!arrayValue.hasOwnProperty(name)) {
                                 arrayValue[name] = [];
