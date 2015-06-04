@@ -177,7 +177,7 @@
                     return true;
                 } else {
                     if(typeof($current.data('validation-error')) !== 'undefined'){
-                        alert($current.data('validation-error'));
+                        z.ui.rasieTextMessage('warning', $current.data('validation-error'));
                     }
                     return false;
                 }
