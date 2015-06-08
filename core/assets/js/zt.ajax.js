@@ -23,6 +23,7 @@
         _settings: {},
         ajaxDutyTimeout: 0,
         ajaxIsOnDuty: false,
+        ajaxOverlay: false,
         /**
          * Init function
          * @returns {undefined}
@@ -34,7 +35,9 @@
                 data: {
                 },
                 beforeSend: function () {
-                    z.ui.showAjaxOverlay();
+                    if(z.ajax.ajaxOverlay){
+                        z.ui.showAjaxOverlay();
+                    }
                     z.ajax.ajaxIsOnDuty = true;
                 },
                 success: function (data) {
@@ -46,7 +49,6 @@
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
                     }, 1000);
-                    console.log("Reponse data: ", data);
                     $.each(data, function (index, item) {
                         switch (item.type) {
                             case 'html':
@@ -86,11 +88,11 @@
          * @param {type} data
          * @returns {jqXHR}
          */
-        request: function (data) {
+        request: function (data, ajaxOverlay) {
             var buffer = {};
             $.extend(true, buffer, this._settings);
             $.extend(true, buffer, (typeof (data) === 'undefined') ? {} : data);
-            console.log("Ajax data: ", buffer);
+            z.ajax.ajaxOverlay = (typeof(ajaxOverlay) === 'undefined') ? false : ajaxOverlay;
             return $.ajax(buffer);
         },
         /**
@@ -100,7 +102,7 @@
          * @param {type} getArray
          * @returns {jqXHR}
          */
-        formRequest: function (formSelector, data, getArray) {
+        formRequest: function (formSelector, data, getArray, ajaxOverlay) {
             var $form = $(formSelector);
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
@@ -152,7 +154,7 @@
             var buffer = {};
             $.extend(true, buffer, {data: formData});
             $.extend(true, buffer, data);
-            return this.request(buffer);
+            return this.request(buffer, ajaxOverlay);
         },
         /**
          * Un hook
@@ -175,7 +177,7 @@
                     return true;
                 } else {
                     if(typeof($current.data('validation-error')) !== 'undefined'){
-                        alert($current.data('validation-error'));
+                        z.ui.rasieTextMessage('warning', $current.data('validation-error'));
                     }
                     return false;
                 }
@@ -191,7 +193,7 @@
          * @param {type} callback
          * @returns {undefined}
          */
-        formHook: function (selector, data, getArray, callback) {
+        formHook: function (selector, data, getArray, callback, ajaxOverlay) {
             var self = this;
             if ($(selector).length <= 0) {
                 return false;
@@ -207,7 +209,7 @@
                     }
                 }
                 if (self.formIsValid(selector)) {
-                    self.formRequest(this, data, getArray).done(function () {
+                    self.formRequest(this, data, getArray, ajaxOverlay).done(function () {
                         callback();
                     });
                 }
