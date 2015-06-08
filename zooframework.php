@@ -31,6 +31,9 @@ if (!class_exists('plgSystemZt'))
                         'js/bootstrap.js'
                     ));
                 }
+                ZtAssets::getInstance()->loadVendor('font-awesome', array(
+                    'css/font-awesome.css'
+                ));
             }
         }
 
