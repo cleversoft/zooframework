@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system" method="upgrade">
     <name>System - ZooFramework</name>
-    <author>CleverSoft</author>
+    <author>ZooTemplate.Com</author>
     <creationDate>Jan 2015</creationDate>
-    <copyright>Copyright (c) 2008 - 2015 CleverSoft</copyright>
+    <copyright>Copyright (c) 2008 - 2015 ZooTemplate</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later</license>
-    <authorEmail>hello@cleversoft.co</authorEmail>
+    <authorEmail>joomla.cleversoft@gmail.com</authorEmail>
     <authorUrl>https://github.com/cleversoft</authorUrl>
     <version>1.0.0</version>
     <description>PLG_SYSTEM_ZOO_FRAMEWORK_XML_DESCRIPTION</description>
@@ -30,8 +30,5 @@
             </fieldset>
         </fields>
     </config>  
-    <!-- Update -->
-    <updateservers>		
-        <server type="extension" name="Zo2 Framework's Updates">http://update.zo2framework.org/zo2/extension.xml</server>
-    </updateservers>
+
 </extension>
