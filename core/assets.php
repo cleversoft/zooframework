@@ -31,21 +31,28 @@ if (!class_exists('ZtAssets'))
          * @var ZtAssets
          */
         public static $instance;
+        
+        private $_namespace;
 
         /**
          * Get instance of ZtAssets
          * @return \ZtAssets
          */
-        public static function getInstance()
+        public static function getInstance($namespace = 'zt')
         {
             if (!isset(self::$instance))
             {
-                self::$instance = new ZtAssets();
+                self::$instance = new ZtAssets($namespace);
             }
             if (isset(self::$instance))
             {
                 return self::$instance;
             }
+        }
+        
+        public function __construct($namespace = 'zt')
+        {
+            $this->_namespace = $namespace;
         }
 
         /**
@@ -55,7 +62,7 @@ if (!class_exists('ZtAssets'))
          */
         public function getAssetUrl($key)
         {
-            return ZtPath::getInstance()->getUrl($key);
+            return ZtPath::getInstance($this->_namespace)->getUrl($key);
         }
 
         /**
@@ -113,7 +120,7 @@ if (!class_exists('ZtAssets'))
             }
         }
 
-        public static function loadVendor($name, $files = array())
+        public static function loadVendor($name, $files = array(), $namespace = 'zt')
         {
             foreach ($files as $file)
             {
@@ -122,10 +129,10 @@ if (!class_exists('ZtAssets'))
                 $ext = JFile::getExt($key);
                 if ($ext == 'css')
                 {
-                    self::getInstance()->addStyleSheet($key);
+                    self::getInstance($namespace)->addStyleSheet($key);
                 } else
                 {
-                    self::getInstance()->addScript($key);
+                    self::getInstance($namespace)->addScript($key);
                 }
             }
         }
