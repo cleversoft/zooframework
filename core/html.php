@@ -32,16 +32,22 @@ if (!class_exists('ZtHtml'))
          * @var ZtPath 
          */
         private $_path;
+        
+        /**
+         * Name space
+         * @var type 
+         */
+        private $_namespace;
 
         /**
          * Constructor
          * @param object|array $properties
          */
-        public function __construct($properties = null)
+        public function __construct($properties = null, $namespace = 'zt')
         {
             parent::__construct($properties);
             /* Init local variables */
-            $this->_path = ZtPath::getInstance();
+            $this->_path = ZtPath::getInstance($namespace);
         }
 
         /**
