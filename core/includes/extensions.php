@@ -99,7 +99,7 @@ if (!class_exists('ZtExtensions')) {
 
             switch ($extension->extension->type) {
                 case 'module':
-                    $path['root'] = 'modules' . DIRECTORY_SEPARATOR . 'mod_' . $extension->extension->name;
+                    $path['root'][] = 'modules' . DIRECTORY_SEPARATOR . $extension->extension->name;
                     $path['template'][] = 'mod_' . $extension->extension->name;
                     break;
                 case 'plugin':
