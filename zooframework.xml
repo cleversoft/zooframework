@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system" method="upgrade">
     <name>System - ZooFramework</name>
-    <author>CleverSoft</author>
-    <creationDate>Jan 2015</creationDate>
-    <copyright>Copyright (c) 2008 - 2015 CleverSoft</copyright>
+    <author>ZooTemplate.Com</author>
+    <creationDate>Oct 2015</creationDate>
+    <copyright>Copyright (c) 2008 - 2015 ZooTemplate</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later</license>
-    <authorEmail>hello@cleversoft.co</authorEmail>
+    <authorEmail>joomla.cleversoft@gmail.com</authorEmail>
     <authorUrl>https://github.com/cleversoft</authorUrl>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>PLG_SYSTEM_ZOO_FRAMEWORK_XML_DESCRIPTION</description>
     <scriptfile>zooframework.script.php</scriptfile>
     <languages folder="language">
@@ -20,8 +20,15 @@
         <filename plugin="zooframework">zooframework.php</filename>
         <filename>extension.json</filename>
     </files>
-    <!-- Update -->
-    <updateservers>		
-        <server type="extension" name="Zo2 Framework's Updates">http://update.zo2framework.org/zo2/extension.xml</server>
-    </updateservers>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="assets_bs3" type="radio" default="0" label="Load BS3" description="">
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>  
+
 </extension>

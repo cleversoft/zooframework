@@ -23,6 +23,7 @@
         _settings: {},
         ajaxDutyTimeout: 0,
         ajaxIsOnDuty: false,
+        ajaxOverlay: false,
         /**
          * Init function
          * @returns {undefined}
@@ -34,7 +35,9 @@
                 data: {
                 },
                 beforeSend: function () {
-                    z.ui.showAjaxOverlay();
+                    if(z.ajax.ajaxOverlay){
+                        z.ui.showAjaxOverlay();
+                    }
                     z.ajax.ajaxIsOnDuty = true;
                 },
                 success: function (data) {
@@ -46,7 +49,6 @@
                         z.ui.hideAjaxOverlay();
                         z.ajax.ajaxIsOnDuty = false;
                     }, 1000);
-                    console.log("Reponse data: ", data);
                     $.each(data, function (index, item) {
                         switch (item.type) {
                             case 'html':
@@ -86,11 +88,11 @@
          * @param {type} data
          * @returns {jqXHR}
          */
-        request: function (data) {
+        request: function (data, ajaxOverlay) {
             var buffer = {};
             $.extend(true, buffer, this._settings);
             $.extend(true, buffer, (typeof (data) === 'undefined') ? {} : data);
-            console.log("Ajax data: ", buffer);
+            z.ajax.ajaxOverlay = (typeof(ajaxOverlay) === 'undefined') ? false : ajaxOverlay;
             return $.ajax(buffer);
         },
         /**
@@ -100,7 +102,7 @@
          * @param {type} getArray
          * @returns {jqXHR}
          */
-        formRequest: function (formSelector, data, getArray) {
+        formRequest: function (formSelector, data, getArray, ajaxOverlay) {
             var $form = $(formSelector);
             var data = (typeof (data) === 'undefined') ? {} : data;
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
@@ -123,8 +125,15 @@
                                 }
                             }
                         }
-                        formData[name] = value;
-                        if (getArray) {
+                        //Filter radio
+                        if(type !== 'radio'){
+                            formData[name] = value;
+                        }else{
+                            if($me.is(':checked')){
+                                formData[name] = value;
+                            }                            
+                        }                        
+                        if (getArray && type !== 'radio') {
                             arrayDetect[name] = (arrayDetect.hasOwnProperty(name)) ? arrayDetect[name] + 1 : 1;
                             if (!arrayValue.hasOwnProperty(name)) {
                                 arrayValue[name] = [];
@@ -145,7 +154,36 @@
             var buffer = {};
             $.extend(true, buffer, {data: formData});
             $.extend(true, buffer, data);
-            return this.request(buffer);
+            return this.request(buffer, ajaxOverlay);
+        },
+        /**
+         * Un hook
+         * @param {type} selector
+         * @returns {undefined}
+         */
+        unHook: function (selector) {
+            $(selector).off('submit');
+        },
+        /**
+         * Check form is valid
+         * @param {type} selector
+         * @returns {undefined}
+         */
+        formIsValid: function checkFormValidation(selector) {
+            var checkValid = typeof ($.fn.isValid) !== 'undefined';
+            var $current = $(selector);
+            if (checkValid) {
+                if ($current.isValid()) {
+                    return true;
+                } else {
+                    if(typeof($current.data('validation-error')) !== 'undefined'){
+                        z.ui.rasieTextMessage('warning', $current.data('validation-error'));
+                    }
+                    return false;
+                }
+            } else {
+                return true;
+            }
         },
         /**
          * Form hook
@@ -155,7 +193,7 @@
          * @param {type} callback
          * @returns {undefined}
          */
-        formHook: function (selector, data, getArray, callback) {
+        formHook: function (selector, data, getArray, callback, ajaxOverlay) {
             var self = this;
             if ($(selector).length <= 0) {
                 return false;
@@ -164,19 +202,14 @@
             var getArray = (typeof (getArray) === 'undefined') ? false : getArray;
             var callback = (typeof (callback) === 'undefined') ? function () {
             } : callback;
-            $(selector).off('submit');
             $(selector).on('submit', function () {
-                var checkValid = typeof ($.fn.isValid) !== 'undefined';
-                if (checkValid) {
-                    if ($(selector).isValid()) {
-                        self.formRequest(this, data, getArray).done(function () {
-                            callback();
-                        });
-                    }else{
-                        alert('Form is not valid.');
+                if (typeof ($(this).data('nosubmit')) !== 'undefined') {
+                    if ($(this).data('nosubmit') === true){
+                        return false;
                     }
-                } else {
-                    self.formRequest(this, data, getArray).done(function () {
+                }
+                if (self.formIsValid(selector)) {
+                    self.formRequest(this, data, getArray, ajaxOverlay).done(function () {
                         callback();
                     });
                 }

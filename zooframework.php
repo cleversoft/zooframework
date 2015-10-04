@@ -21,6 +21,20 @@ if (!class_exists('plgSystemZt'))
         {
             parent::__construct($subject, $config);
             require_once __DIR__ . '/core/bootstrap.php';
+
+            if (JFactory::getApplication()->isSite())
+            {
+                if ($this->params->get('assets_bs3', 0))
+                {
+                    ZtAssets::getInstance()->loadVendor('bootstrap', array(
+                        'css/bootstrap.css',
+                        'js/bootstrap.js'
+                    ));
+                }
+                ZtAssets::getInstance()->loadVendor('font-awesome', array(
+                    'css/font-awesome.css'
+                ));
+            }
         }
 
         public function onAfterDispatch()

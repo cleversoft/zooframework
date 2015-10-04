@@ -30,8 +30,12 @@
          * @returns {undefined}
          */
         _init: function () {
+            var self = this;
             this._addMessageContainer();
             this._addAjaxOverlay();
+            w.setInterval(function(){
+               self.remove($(self._elements.messageContainerId).children().last(), true);
+            }, this._settings.messageAppear);
         },
         /**
          * Add message container
@@ -118,10 +122,23 @@
         raiseMessage: function (message) {
             var self = this;
             this.append(this._elements.messageContainerId, message);
-            w.setTimeout(function(){
-               self.remove($(self._elements.messageContainerId).children().last(), true);
-            }, this._settings.messageAppear);
-            
+        },
+        /**
+         * Raise a test message
+         * @param {type} type
+         * @param {type} message
+         * @returns {undefined}
+         */
+        rasieTextMessage: function(type, message){
+            var html = '<div class="zt-framework-message">';
+            html += '<div class="alert alert-' + type + '">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<h4>' + type + '</h4>';
+            html += message;
+            html += '</div>';
+            html += '</div>';
+            var self = this;
+            this.append(this._elements.messageContainerId, html);
         }
     };
 
