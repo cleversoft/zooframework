@@ -11,6 +11,8 @@ require_once __DIR__ . '/includes/path.php';
 require_once __DIR__ . '/includes/extensions.php';
 require_once __DIR__ . '/includes/loader.php';
 require_once __DIR__ . '/includes/framework.php';
+// Another force just for make sure. It's not make sense but for safety
+require_once __DIR__ . '/extension.php';
 
 if (JFactory::getApplication()->input->get('zt_debug') == 1) {
     ZtFramework::restart();
